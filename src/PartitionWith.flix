@@ -1,10 +1,9 @@
-def splitWhen(pred: a -> Bool, coll: List[a]): (List[a], List[a]) =
-  (List.takeWhile(pred, coll), List.dropWhile(pred, coll))
-
 def partitionWith(pred: a -> Bool, coll: List[a]) : List[List[a]] =
   match coll {
     case Nil => Nil
     case h :: t =>
-      let (xs, ys) = splitWhen(pred >> Bool.not, t);
+      let notPred = pred >> Bool.not;
+      let xs = List.takeWhile(notPred, t);
+      let ys = List.dropWhile(notPred, t);
       (h :: xs) :: partitionWith(pred, ys)
   }
